@@ -2,7 +2,7 @@ import CharacterList from "./components/CharacterList.jsx";
 
 function App() {
   return (
-    <div>
+    <div className="font-sans">
       <CharacterList />
     </div>
   );

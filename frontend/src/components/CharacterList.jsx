@@ -88,8 +88,8 @@ function CharacterList() {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Marvel Characters</h1>
+    <div className="p-6 bg-gray-800 h-screen">
+      <h1 className="text-5xl font-bold mb-6 text-red-500">Marvel Characters</h1>
 
       <form onSubmit={handleAdd} className="mb-6 flex flex-wrap gap-2">
         <input
@@ -118,7 +118,7 @@ function CharacterList() {
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+          className="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-600"
         >
           Add
         </button>
@@ -128,12 +128,12 @@ function CharacterList() {
         {characters.map((c) => (
           <div
             key={c.id}
-            className="border rounded-lg shadow-md p-4 bg-white flex flex-col justify-between"
+            className="border rounded-lg shadow-md flex flex-col gap-4 text-white bg-gray-900 p-4"
           >
             {editingId === c.id ? (
-              <>
+              <div className="text-gray-500">
                 <input
-                  className="border rounded px-2 py-1 mb-1"
+                  className="border rounded px-2 py-1 mb-1 w-full"
                   type="text"
                   value={editChar.name}
                   onChange={(e) =>
@@ -142,7 +142,7 @@ function CharacterList() {
                   placeholder="Name"
                 />
                 <input
-                  className="border rounded px-2 py-1 mb-1"
+                  className="border rounded px-2 py-1 mb-1 w-full"
                   type="text"
                   value={editChar.realName}
                   onChange={(e) =>
@@ -151,7 +151,7 @@ function CharacterList() {
                   placeholder="Real Name"
                 />
                 <input
-                  className="border rounded px-2 py-1 mb-2"
+                  className="border rounded px-2 py-1 mb-2 w-full"
                   type="text"
                   value={editChar.universe}
                   onChange={(e) =>
@@ -173,11 +173,11 @@ function CharacterList() {
                     Cancel
                   </button>
                 </div>
-              </>
+              </div>
             ) : (
-              <>
-                <h3 className="text-xl font-semibold">{c.name}</h3>
-                <p>
+              <div>
+                <h3 className="text-2xl text-red-500 font-semibold">{c.name}</h3>
+                <p className="my-2">
                   <b>Real Name:</b> {c.realName}
                 </p>
                 <p>
@@ -197,7 +197,7 @@ function CharacterList() {
                     Delete
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </div>
         ))}
