@@ -2,20 +2,19 @@ import { useEffect, useState } from "react";
 
 function CharacterList() {
   const [characters, setCharacters] = useState([]);
-  const [newChar, setNewChar] = useState({
-    name: "",
-    realName: "",
-    universe: "",
-  });
+  const [newChar, setNewChar] = useState({ name: "", realName: "", universe: "" });
   const [editingId, setEditingId] = useState(null);
-  const [editChar, setEditChar] = useState({
-    name: "",
-    realName: "",
-    universe: "",
-  });
+  const [editChar, setEditChar] = useState({ name: "", realName: "", universe: "" });
 
   useEffect(() => {
     loadCharacters();
+
+    const interval = setInterval(() => {
+      console.log("Reloading characters...");
+      loadCharacters();
+    }, 15000);
+
+    return () => clearInterval(interval);
   }, []);
 
   async function loadCharacters() {
@@ -30,36 +29,38 @@ function CharacterList() {
 
   async function handleAdd(e) {
     e.preventDefault();
-    console.log("Adding character:", newChar);
     if (!newChar.name) return;
 
-    const res = await fetch("http://localhost:3000/characters", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newChar),
-    });
+    try {
+      const res = await fetch("http://localhost:3000/characters", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newChar),
+      });
 
-    const data = await res.json();
-    console.log("Response:", data);
+      const data = await res.json();
+      console.log("Character added:", data);
 
-    setNewChar({ name: "", realName: "", universe: "" });
-    loadCharacters();
+      setNewChar({ name: "", realName: "", universe: "" });
+      loadCharacters();
+    } catch (error) {
+      console.error("Erreur ajout:", error);
+    }
   }
 
   async function handleDelete(id) {
     const confirmDelete = window.confirm(
       "Êtes-vous sûr de vouloir supprimer ce personnage ?"
     );
-    if (!confirmDelete) return; // l'utilisateur a annulé
+    if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/characters/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(`http://localhost:3000/characters/${id}`, { method: "DELETE" });
       if (!res.ok) {
         alert("Erreur lors de la suppression !");
         return;
       }
+      console.log(`Character ${id} deleted`);
       loadCharacters();
     } catch (error) {
       console.error(error);
@@ -70,21 +71,22 @@ function CharacterList() {
   function handleEdit(id) {
     const char = characters.find((c) => c.id === id);
     setEditingId(id);
-    setEditChar({
-      name: char.name,
-      realName: char.realName,
-      universe: char.universe,
-    });
+    setEditChar({ name: char.name, realName: char.realName, universe: char.universe });
   }
 
   async function handleUpdate(id) {
-    await fetch(`http://localhost:3000/characters/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(editChar),
-    });
-    setEditingId(null);
-    loadCharacters();
+    try {
+      await fetch(`http://localhost:3000/characters/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editChar),
+      });
+      console.log(`Character ${id} updated`);
+      setEditingId(null);
+      loadCharacters();
+    } catch (error) {
+      console.error("Erreur update:", error);
+    }
   }
 
   return (
@@ -136,27 +138,21 @@ function CharacterList() {
                   className="border rounded px-2 py-1 mb-1 w-full"
                   type="text"
                   value={editChar.name}
-                  onChange={(e) =>
-                    setEditChar({ ...editChar, name: e.target.value })
-                  }
+                  onChange={(e) => setEditChar({ ...editChar, name: e.target.value })}
                   placeholder="Name"
                 />
                 <input
                   className="border rounded px-2 py-1 mb-1 w-full"
                   type="text"
                   value={editChar.realName}
-                  onChange={(e) =>
-                    setEditChar({ ...editChar, realName: e.target.value })
-                  }
+                  onChange={(e) => setEditChar({ ...editChar, realName: e.target.value })}
                   placeholder="Real Name"
                 />
                 <input
                   className="border rounded px-2 py-1 mb-2 w-full"
                   type="text"
                   value={editChar.universe}
-                  onChange={(e) =>
-                    setEditChar({ ...editChar, universe: e.target.value })
-                  }
+                  onChange={(e) => setEditChar({ ...editChar, universe: e.target.value })}
                   placeholder="Universe"
                 />
                 <div className="flex justify-between">
