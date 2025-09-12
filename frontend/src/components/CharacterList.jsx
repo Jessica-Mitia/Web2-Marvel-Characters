@@ -14,7 +14,6 @@ function CharacterList() {
     universe: "",
   });
 
-  // Charger les personnages depuis le backend
   useEffect(() => {
     loadCharacters();
   }, []);
