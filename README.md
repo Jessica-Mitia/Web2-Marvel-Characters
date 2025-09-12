@@ -1,14 +1,32 @@
-# Marvel Character API
-Une API REST en Node.js + Express permettant de gérer une liste de personnages Marvel stockés dans un fichier `user.json`.
+# Marvel Characters App
+Une application web permettant d' afficher, ajouter, modifier et supprimer des personnages Marvel/DC.
+Backend Node.js/Express avec un fichier user.json et frontend React + Vite + Tailwind CSS.
 
-### Prérequis
-- [Node.js](https://nodejs.org/) installé
-- `npm` (installé avec Node.js)
-- Un éditeur de texte (comme VS Code)
-- Postman ou un autre client HTTP pour tester
-- Dépendance : npm install express
+## Technologies
+- Backend : Node.js, Express, CORS
+- Frontend : React, Vite, Tailwind CSS
+- Stockage : fichier JSON (user.json)
+- Langage : JavaScript ESModules
+
+## Installation
+### Backend
++ cd backend
++ npm install express cors
+
+### Frontend
++ cd frontend
++ npm install
+
+## Lancer le projet
+### Backend
++ cd backend
++ node server.js
+
+### Frontend
++ cd frontend
++ npm run dev
 
 ## Auteur
-RANDRIAMANANTENA Mitia Jessica
-K1
-STD24039
+RANDRIAMANANTENA Mitia Jessica  
+K1  
+STD24039  
